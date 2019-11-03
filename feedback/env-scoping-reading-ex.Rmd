@@ -1,0 +1,4 @@
+## Lektüre: Scoping
+
+Lesen Sie ["How R Searches and Finds Stuff"](http://obeautifulcode.com/R/How-R-Searches-And-Finds-Stuff/) von Suraj Gupta zur Wiederholung, Vertiefung und Erbauung. Überspringen Sie getrost die "Imports vs. Depends" und "namespace:base" Abschnitte, darauf werden wir in ein paar Wochen zu sprechen kommen. 
+  
