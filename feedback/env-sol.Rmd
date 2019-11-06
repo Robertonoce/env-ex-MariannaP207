@@ -1,0 +1,56 @@
+<!--
+Knitten Sie dieses File in RStudio zur besseren Lesbarkeit, bitte...
+-->
+
+```{r, child = "env-ex.Rmd"}
+```
+
+----------------------------------------------------
+
+### Lösung:
+
+a) 
+
+* alle Objekte in `environment` müssen Namen haben, Listen können unbenamte Einträge haben.
+* Objekte in einem `environment` haben keine Reihenfolge, in einer Listen schon.
+* Jedes `environment` hat eine Elternumgebung
+* `environment`s haben *reference semantics*: Modifikation von `environment` erzeugt keine Kopie
+des `environment`s.
+
+
+b) 
+
+In der Umgebung aus der sie aufgerufen wurden, siehe `?ls` bzw. `?rm`.
+
+c) 
+
+Siehe `help("<-"), help("<<-")`. 
+
+`<-` legt eine neue `binding` (eine Verknüfung zwischen einem Symbol für eine Variable und dem Speicherort wo der Wert der Variable ) in der Umgebung in der `<-` aufgerufen wurde an, bzw. ersetzt eine alte Zuweisung für die Variable auf der linken Seite. 
+
+Das Verhalten von `<<-` hängt davon ab ob/wo die Variable auf der linken Seite definiert ist. Falls die Variable in der aufrufenden Umgebung nicht defniert ist, sucht `<<-` deren Elternumgebungen ab und ersetzt die Zuweisung in der ersten Elternumgebung in der die Variable definiert ist. Ist sie nirgends definiert (oder bestehende `binding`s sind `locked`) so wird eine neue Variable im `.GlobalEnv` angelegt.
+
+d)
+
+Mit Rekursion (Funktion `anywhere()` ruft sich immer wieder selbst auf):
+```{r, def_anywhere, code = readLines("env-anywhere-def.R"), echo = FALSE}
+```
+Äquivalent ohne Rekursion:
+```{r, def_anywhere_sequential, eval=FALSE}
+anywhere <- function(name, env = parent.frame()) {
+  checkmate::assert_string(name)
+  env <- pryr:::to_env(env)
+  result <- list()
+  while (!identical(env, emptyenv())) {
+    if (exists(name, env, inherits = FALSE)) {
+      result <- append(result, env)
+    }
+    env <- parent.env(env)
+  }
+  result
+}
+```
+
+```{r, test-anywhere, eval = TRUE, code=readLines("test-env-anywhere.R")}
+```
+Sie fragen vielleicht warum hier auch eine Variable "`t`" gefunden wird, die in der Umgebung, die mit dem `base`-Paket assoziiert ist, liegt...? Da haben wir doch gar nix angelegt...? Das ist die Funktion mit der Matrizen und Vektoren transponiert werden! 

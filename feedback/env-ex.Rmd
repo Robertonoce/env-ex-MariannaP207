@@ -1,0 +1,18 @@
+# Umgebungen umgibt unglaubliches
+
+Lesen Sie das ["Environments"](https://adv-r.hadley.nz/environments.html)-Kapitel aus *Advanced R Programming* aufmerksam durch. 
+
+Bearbeiten Sie die folgenden, teilweise von dort übernommenen Aufgaben:
+
+a) Inwiefern unterscheiden sich in R Listen (`list`) von `environment`s?
+b) Wo suchen `ls()` und `rm()` wenn nicht explizit ein `environment` angegeben wird?
+c) Wo legt `<-` eine (neue) `binding` an? Wo `<<-`?
+d) Schreiben sie eine modifizierte Version `anywhere()` der Funktion `where()` aus dem `pryr`-Paket (**nicht** der im Buch definierten Funktion `where`), die *alle* Umgebungen im Suchpfad die eine Variable des gegebenen Namens enthalten in Form einer Liste zurückgibt. Überprüfen Sie ihre Implementation mit `test-env-anywhere.R`.
+
+```{r, where}
+pryr::where
+```
+
+*Hinweis:* Die Funktion `to_env()`, die in `pryr::where()` benutzt wird wird nicht von `pryr` exportiert. Sie können die Funktion trotzdem mittels `pryr:::to_env()` aufrufen.
+
+
